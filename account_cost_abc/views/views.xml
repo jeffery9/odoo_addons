@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <menuitem id="costing" name="Costing" sequence="99" parent="account.menu_finance_entries" />
+        <menuitem id="costing_config" name="Costing" sequence="99" parent="account.menu_finance_configuration" />
+        <!-- VIEWS: "ABC Plan"
+      
+          - Model·········: account.costing.abc.plan
+          - _rec_name·····: name
+          - Domain········: []
+          - Context·······: {}
+          - Parent menu ··: abc
+          - View priority·: 16    
+          - Sequence····..: 10
+          - Action help···: Something about ABC Plan
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Tree view for "account.costing.abc.plan" -->
+        <record id="view_account_costing_abc_plan_tree" model="ir.ui.view">
+            <field name="name">view.account.costing.abc.plan.tree</field>
+            <field name="model">account.costing.abc.plan</field>
+            <field name="type">tree</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <tree string="ABC Plan List" create="true" delete="true" edit="true">
+                    <field name="name" />
+                    <field name="date_begin" />
+                    <field name="date_end" />
+                    <field name="account_ids" widget="many2many_tags" />
+                    <field name="amount" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <!-- Form view for "account.costing.abc.plan" -->
+        <record id="view_account_costing_abc_plan_form" model="ir.ui.view">
+            <field name="name">view.account.costing.abc.plan.form</field>
+            <field name="model">account.costing.abc.plan</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <form string="ABC Plan Form" create="true" delete="true" edit="true">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" states="draft" />
+                        <button name="action_draft" string="Set Draft" type="object" states="cancelled" />
+                        <button name="action_close" string="
+                          Close" type="object" states="confirmed" />
+                        <button name="action_cancel" string="Cancel" type="object" states="draft,closed" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" class="oe_inline" placeholder="Name" readonly="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="object_type" />
+                                <field name="date_begin" />
+                                <field name="date_end" />
+                            </group>
+                            <group>
+                                <field name="product_ids" widget="many2many_tags" />
+                                <field name="partner_ids" widget="many2many_tags" />
+                                <field name="account_move_ids" invisible="1" />
+                                <field name="account_ids" widget="many2many_tags" />
+                                <field name="amount" />
+                            </group>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="Activity Distribution">
+                                    <group>
+                                        <field name="cost_activity_ids" widget="many2many_tags" groups="base.group_no_one" readonly="1" />
+                                    </group>
+                                    <field name="activity_distribution_ids">
+                                        <tree string="Activity Distribution" create="false" delete="false">
+                                            <field name="activity_id" />
+                                            <field name="measure" />
+                                            <field name="percent" widget="percentage" />
+                                            <field name="activity" />
+                                            <field name="cost" readonly="1" />
+                                            <field name="rate" readonly="1" />
+                                            <button name="action_show_details" string="Distribution" type="object" class="oe_highlight" />
+                                        </tree>
+                                        <form string="Acitivity Distribution">
+                                            <group>
+                                                <group>
+                                                    <field name="activity_id" readonly="1" />
+                                                    <field name="measure" readonly="1" />
+                                                    <field name="percent" widget="percentage" />
+                                                    <field name="activity" />
+                                                </group>
+                                            </group>
+                                           
+                                            <field name="object_distribution_ids" readonly="1">
+                                                <tree string="Object Distribution" >
+                                                    <field name="product_id" />
+                                                    <field name="partner_id" />
+                                                    <field name="activity" />
+                                                    <field name="amount" />
+                                                </tree>
+                                            </field>
+                                        </form>
+                                    </field>
+                                </page>
+                                <page string="Cost Result">
+                                    <field name="result_ids">
+                                        <tree string="Caption" create="false" delete="false" edit="false">
+                                            <field name="product_id" />
+                                            <field name="partner_id" />
+                                            <field name="cost" />
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="activity_ids" widget="mail_activity" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- Search view for "account.costing.abc.plan" -->
+        <record id="view_account_costing_abc_plan_search" model="ir.ui.view">
+            <field name="name">view.account.costing.abc.plan.search</field>
+            <field name="model">account.costing.abc.plan</field>
+            <field name="type">search</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <search string="ABC Plan Search">
+                    <field name="name" />
+                </search>
+            </field>
+        </record>
+        <!-- Main window action for "account.costing.abc.plan" -->
+        <record id="action_account_costing_abc_plan_act_window" model="ir.actions.act_window">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">ABC Plan</field>
+            <field name="res_model">account.costing.abc.plan</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="target">current</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_account_costing_abc_plan_search" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to add new ABC Plan
+                </p>
+                <p>
+                    Something about ABC Plan
+                </p>
+            </field>
+        </record>
+        <!-- Main menu for "account.costing.abc.plan" -->
+        <record id="menu_account_costing_abc_plan" model="ir.ui.menu">
+            <field name="name">ABC Plan</field>
+            <field name="sequence" eval="10" />
+            <field name="action" ref="action_account_costing_abc_plan_act_window" />
+            <field name="parent_id" ref="costing" />
+        </record>
+        <!-- VIEWS: "Cost Pool"
+        
+            - Model·········: account.cost.activity
+            - _rec_name·····: name
+            - Domain········: []
+            - Context·······: {}
+            - Parent menu ··: costing_config
+            - View priority·: 16    
+            - Sequence····..: 10
+            - Action help···: Something about Cost Pool
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Tree view for "account.cost.activity" -->
+        <record id="view_account_cost_activity_tree" model="ir.ui.view">
+            <field name="name">view.account.cost.activity.tree</field>
+            <field name="model">account.cost.activity</field>
+            <field name="type">tree</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <tree string="Cost Pool" editable="top">
+                    <field name="name" />
+                    <field name="measure" />
+                    <field name="value" />
+                </tree>
+            </field>
+        </record>
+        <!-- Search view for "account.cost.activity" -->
+        <record id="view_account_cost_activity_search" model="ir.ui.view">
+            <field name="name">view.account.cost.activity.search</field>
+            <field name="model">account.cost.activity</field>
+            <field name="type">search</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <search string="Cost Pool Search">
+                    <field name="name" />
+                    <field name="measure" />
+                </search>
+            </field>
+        </record>
+        <!-- Main window action for "account.cost.activity" -->
+        <record id="action_account_cost_activity_act_window" model="ir.actions.act_window">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">Cost Pool</field>
+            <field name="res_model">account.cost.activity</field>
+            <field name="view_mode">tree</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="target">current</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_account_cost_activity_search" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Cost Pool
+                </p>
+                <p>
+                    Something about Cost Pool
+                </p>
+            </field>
+        </record>
+        <!-- Main menu for "account.cost.activity" -->
+        <record id="menu_account_cost_activity" model="ir.ui.menu">
+            <field name="name">Cost Pool</field>
+            <field name="sequence" eval="10" />
+            <field name="action" ref="action_account_cost_activity_act_window" />
+            <field name="parent_id" ref="costing_config" />
+        </record>
+        <record id="view_form_abc_plan_activity_distribution" model="ir.ui.view">
+            <field name="name">Acitivity Distribution</field>
+            <field name="model">account.costing.abc.plan.activity.distribution</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <form string="Acitivity Distribution">
+                    <group>
+                        <group>
+                            <field name="activity_id" readonly="1" />
+                            <field name="measure" readonly="1" />
+                            <field name="percent" widget="percentage" readonly="1" />
+                            <field name="activity" readonly="1" />
+                        </group>
+                    </group>
+                    <field name="product_ids" invisible="1" />
+                    <field name="object_distribution_ids">
+                        <tree string="Object Distribution" create="true" delete="true" edit="true" editable="bottom">
+                            <field name="product_id" domain="[('id', 'in', parent.product_ids), ('activity_ids', 'in', parent.activity_id)]" />
+                            <field name="partner_id" />
+                            <field name="activity" />
+                            <field name="amount" />
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.costing</field>
+            <field name="model">product.template</field>
+            <field name="priority">5</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='invoicing']" position="inside">
+                    <group>
+                        <group>
+                            <field name="cost_activity_ids" widget="many2many_tags" />
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
