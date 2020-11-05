@@ -1,0 +1,3 @@
+[submodule "mail_sender"]
+	path = mail_sender
+	url = /Users/jeffery/git-repo/mail_sender

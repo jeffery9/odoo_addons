@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="account_cost_activity_1" model="account.cost.activity">
+            <field name="name"> sale order </field>
+            <field name="measure">#sale orders </field>
+        </record>
+        <record id="account_cost_activity_2" model="account.cost.activity">
+            <field name="name"> support </field>
+            <field name="measure">#customers</field>
+        </record>
+    </data>
+</odoo>
