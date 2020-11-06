@@ -1,3 +1,6 @@
 [submodule "mail_sender"]
 	path = mail_sender
-	url = /Users/jeffery/git-repo/mail_sender
+	url = git@github.com:jeffery9/mail_sender.git
+[submodule "metaweblog"]
+	path = metaweblog
+	url = git@github.com:jeffery9/metaweblog.git

@@ -61,12 +61,12 @@
                         <group>
                             <group>
                                 <field name="object_type" />
+                                <field name="product_ids" widget="many2many_tags" />
+                                <field name="partner_ids" widget="many2many_tags" />
                                 <field name="date_begin" />
                                 <field name="date_end" />
                             </group>
                             <group>
-                                <field name="product_ids" widget="many2many_tags" />
-                                <field name="partner_ids" widget="many2many_tags" />
                                 <field name="account_move_ids" invisible="1" />
                                 <field name="account_ids" widget="many2many_tags" />
                                 <field name="amount" />
@@ -79,14 +79,14 @@
                                         <field name="cost_activity_ids" widget="many2many_tags" groups="base.group_no_one" readonly="1" />
                                     </group>
                                     <field name="activity_distribution_ids">
-                                        <tree string="Activity Distribution" create="false" delete="false">
-                                            <field name="activity_id" />
+                                        <tree string="Activity Distribution" create="false" delete="false" editable="top">
+                                            <field name="activity_id" readonly="1"/>
                                             <field name="measure" />
-                                            <field name="percent" widget="percentage" />
+                                            <field name="percent" widget="percentage" sum="Total" />
                                             <field name="activity" />
-                                            <field name="cost" readonly="1" />
+                                            <field name="cost" readonly="1" sum="Total Cost" />
                                             <field name="rate" readonly="1" />
-                                            <button name="action_show_details" string="Distribution" type="object" class="oe_highlight" />
+                                            <button name="action_show_details" string="Distribution" type="object" icon="fa-list" attrs="{'invisible': [('parent.state','not in',('confirmed'))], }" />
                                         </tree>
                                         <form string="Acitivity Distribution">
                                             <group>
@@ -97,13 +97,12 @@
                                                     <field name="activity" />
                                                 </group>
                                             </group>
-                                           
                                             <field name="object_distribution_ids" readonly="1">
-                                                <tree string="Object Distribution" >
+                                                <tree string="Object Distribution">
                                                     <field name="product_id" />
                                                     <field name="partner_id" />
-                                                    <field name="activity" />
-                                                    <field name="amount" />
+                                                    <field name="activity" sum="Total Acitivties" />
+                                                    <field name="amount" sum="Total Amount" />
                                                 </tree>
                                             </field>
                                         </form>
@@ -111,11 +110,28 @@
                                 </page>
                                 <page string="Cost Result">
                                     <field name="result_ids">
-                                        <tree string="Caption" create="false" delete="false" edit="false">
+                                        <tree string="Cost Result" create="false" delete="false" edit="false">
                                             <field name="product_id" />
                                             <field name="partner_id" />
-                                            <field name="cost" />
+                                            <field name="cost" sum="Total Cost" />
                                         </tree>
+                                        <form string="Cost Result" create="true" delete="true" edit="true">
+                                            <group>
+                                                <group>
+                                                    <field name="product_id" readonly="1"/>
+                                                    <field name="partner_id" readonly="1"/>
+                                                    <field name="cost" />
+                                                </group>
+                                            </group>
+                                            <field name="distribution_ids">
+                                                <tree string="Distribution" create="false" delete="false" edit="false" editable="bottom">
+                                                    <field name="product_id" />
+                                                    <field name="partner_id" />
+                                                    <field name="activity" sum="Total Activity" />
+                                                    <field name="amount" sum="Total Amount" />
+                                                </tree>
+                                            </field>
+                                        </form>
                                     </field>
                                 </page>
                             </notebook>
@@ -247,7 +263,7 @@
             <field name="priority" eval="16" />
             <field name="active" eval="True" />
             <field name="arch" type="xml">
-                <form string="Acitivity Distribution">
+                <form string="Acitivity Distribution" create="false">
                     <group>
                         <group>
                             <field name="activity_id" readonly="1" />
@@ -259,12 +275,16 @@
                     <field name="product_ids" invisible="1" />
                     <field name="object_distribution_ids">
                         <tree string="Object Distribution" create="true" delete="true" edit="true" editable="bottom">
-                            <field name="product_id" domain="[('id', 'in', parent.product_ids), ('activity_ids', 'in', parent.activity_id)]" />
+                            <field name="product_id" domain="[('id', 'in', parent.product_ids), ('cost_activity_ids', 'in', parent.activity_id)]" />
                             <field name="partner_id" />
-                            <field name="activity" />
-                            <field name="amount" />
+                            <field name="activity" sum="Total Acitivties" />
+                            <field name="amount" sum="Total Amount" />
                         </tree>
                     </field>
+                    <footer>
+                        <button string="Confirm" special="save" class="oe_highlight" />
+                        <button string="Discard" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>
