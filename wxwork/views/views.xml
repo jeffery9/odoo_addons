@@ -1,0 +1,133 @@
+<odoo>
+    <data>
+        <!-- VIEWS: "Company"
+      
+          - Model·········: res.company
+          - Base Addons···: base    
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Form view for "res.company" -->
+        <record id="view_res_company_form" model="ir.ui.view">
+            <field name="name">view.res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general_info']" position="after">
+                    <page string="wxWork App" name="wxwork_app">
+                        <group>
+                            <field name="wxwork_corpid" string="企业ID" />
+                            <field name="wxwork_token" password="True" string="Token" />
+                            <field name="wxwork_aes_key" password="True" string="EncodingAESKey" />
+                        </group>
+                        <field name="wxwork_app_ids">
+                            <tree string="wxwork app List" editable="top">
+                                <field name="wxwork_app" />
+                                <field name="wxwork_agentid" />
+                                <field name="wxwork_secret" password="True" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <!-- VIEWS: "wxwork app"
+
+    - Model·········: wxwork.app
+    - _rec_name·····: wxwork_app
+    - Domain········: []
+    - Context·······: {}
+    - Parent menu ··: base.menu_custom
+    - View priority·: 16    
+    - Sequence····..: 10
+    - Action help···: Something about wxwork app
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Tree view for "wxwork.app" -->
+        <record id="view_wxwork_app_tree" model="ir.ui.view">
+            <field name="name">view.wxwork.app.tree</field>
+            <field name="model">wxwork.app</field>
+            <field name="type">tree</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <tree string="wxWork app List" create="false" delete="false" edit="false">
+                    <field name="wxwork_app" />
+                    <field name="wxwork_agentid" />
+                    <field name="wxwork_secret" password="True" />
+                    <field name="company_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- Form view for "wxwork.app" -->
+        <record id="view_wxwork_app_form" model="ir.ui.view">
+            <field name="name">view.wxwork.app.form</field>
+            <field name="model">wxwork.app</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <form string="wxWork app Form" create="false" delete="false" edit="false">
+                    <header>
+                        <button name="get_access_token" string="renew Token" type="object" class="oe_highlight" invisible="0" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="wxwork_app" />
+                            <field name="wxwork_agentid" />
+                            <field name="wxwork_secret" password="True" />
+                            <!-- <field name="company_id" /> -->
+                        </group>
+                        <field name="access_token_ids">
+                            <tree string="Access Token" create="false" delete="false" edit="false">
+                                <field name="expire" />
+                                <field name="token" password="True" />
+                            </tree>
+                            <form string="Access Token" create="false" delete="false" edit="false">
+                                <group>
+                                    <field name="expire" />
+                                    <field name="token" password="True" />
+                                    <field name="corpid" />
+                                    <field name="app_id" />
+                                </group>
+                            </form>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Search view for "wxwork.app" -->
+        <record id="view_wxwork_app_search" model="ir.ui.view">
+            <field name="name">view.wxwork.app.search</field>
+            <field name="model">wxwork.app</field>
+            <field name="type">search</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="16" />
+            <field name="active" eval="True" />
+            <field name="arch" type="xml">
+                <search string="wxwork app Search">
+                    <field name="wxwork_app" />
+                </search>
+            </field>
+        </record>
+        <!-- Main window action for "wxwork.app" -->
+        <record id="action_wxwork_app_act_window" model="ir.actions.act_window">
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">wxwork app</field>
+            <field name="res_model">wxwork.app</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="target">current</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_wxwork_app_search" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new wxWork app
+                </p>
+                <p>
+                    Something about wxWork app
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

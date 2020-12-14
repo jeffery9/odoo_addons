@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <record id="view_picking_withcarrier_out_form" model="ir.ui.view">
+      <field name="name">delivery.stock.picking.restrict.lot.form.view</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='action_show_details']" position="before">
+          <field name="restrict_lot_id" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" domain="[('product_id','=',product_id)]" options="{'no_open': True, 'no_create': True}" />
+        </xpath>
+        <xpath expr="//field[@name='move_ids_without_package']/form/group" position="inside">
+          <field name="restrict_lot_id" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" domain="[('product_id','=',product_id)]" options="{'no_open': True, 'no_create': True}" />
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

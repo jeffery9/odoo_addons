@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+    <record id="view_order_form_inherit_sale_stock" model="ir.ui.view">
+      <field name="name">sale.order.form.sale.stock.restrict.lot</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//page/field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+          <field name="restrict_lot_id" attrs="{'invisible': [('product_id', '=', False)]}" domain="[('product_id','=',product_id)]" />
+        </xpath>
+        <xpath expr="//page/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+          <field name="restrict_lot_id" attrs="{'invisible': [('product_id', '=', False)]}" domain="[('product_id','=',product_id)]" />
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>
