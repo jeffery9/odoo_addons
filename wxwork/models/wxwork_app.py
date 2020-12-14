@@ -9,7 +9,7 @@ from datetime import timedelta
 
 import requests
 
-from odoo import models, fields, _
+from odoo import api, models, fields
 from odoo.exceptions import UserError
 
 
@@ -80,6 +80,10 @@ class WxworkApp(models.Model):
                 raise UserError(
                     'some error occured \n \nerror code:  %s\nerror message:  \n  %s'
                     % (str(data.get('errcode')), data.get('errmsg')))
+
+    @api.model
+    def call_back(self, data):
+        return True
 
 
 class wWxworkAccessToken(models.Model):

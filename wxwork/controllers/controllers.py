@@ -31,4 +31,7 @@ class WxWork(http.Controller):
             if reply_echostr:
                 return reply_echostr
 
+        else:
+            return request.env['wxwork.app'].call_back(kw)
+
         return "Hello, world"
