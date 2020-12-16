@@ -12,7 +12,7 @@
             <field name="inherit_id" ref="base.view_company_form" />
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='general_info']" position="after">
-                    <page string="wxWork App" name="wxwork_app">
+                    <page string="wxwork App" name="wxwork_app">
                         <group>
                             <field name="wxwork_corpid" string="企业ID" />
                             <field name="wxwork_token" password="True" string="Token" />
@@ -49,7 +49,7 @@
             <field name="priority" eval="16" />
             <field name="active" eval="True" />
             <field name="arch" type="xml">
-                <tree string="wxWork app List" create="false" delete="false" edit="false">
+                <tree string="wxwork app List" create="false" delete="false" edit="false">
                     <field name="wxwork_app" />
                     <field name="wxwork_agentid" />
                     <field name="wxwork_secret" password="True" />
@@ -66,7 +66,7 @@
             <field name="priority" eval="16" />
             <field name="active" eval="True" />
             <field name="arch" type="xml">
-                <form string="wxWork app Form" create="false" delete="false" edit="false">
+                <form string="wxwork app Form" create="false" delete="false" edit="false">
                     <header>
                         <button name="get_access_token" string="renew Token" type="object" class="oe_highlight" invisible="0" />
                     </header>
@@ -122,10 +122,10 @@
             <field name="search_view_id" ref="view_wxwork_app_search" />
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click to add new wxWork app
+                    Click to add new wxwork app
                 </p>
                 <p>
-                    Something about wxWork app
+                    Something about wxwork app
                 </p>
             </field>
         </record>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name':
-        "wxWork",
+        "wxwork",
     'summary':
         """
     weixin work base 

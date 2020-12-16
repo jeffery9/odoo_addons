@@ -13,9 +13,9 @@ from odoo import api, models, fields
 from odoo.exceptions import UserError
 
 
-class WxworkApp(models.Model):
+class wxworkApp(models.Model):
     _name = 'wxwork.app'
-    _description = 'wxWork App'
+    _description = 'wxwork App'
 
     _rec_name = 'wxwork_app'
     _order = 'wxwork_app ASC'
@@ -86,9 +86,9 @@ class WxworkApp(models.Model):
         return True
 
 
-class wWxworkAccessToken(models.Model):
+class wwxworkAccessToken(models.Model):
     _name = 'wxwork.access_token'
-    _description = 'wxWork Access Token'
+    _description = 'wxwork Access Token'
 
     _rec_name = 'token'
     _order = 'create_date DESC'
@@ -97,7 +97,7 @@ class wWxworkAccessToken(models.Model):
 
     expire = fields.Datetime(string=u'Expire', required=True)
 
-    app_id = fields.Many2one(string=u'wxWork App',
+    app_id = fields.Many2one(string=u'wxwork App',
                              comodel_name='wxwork.app',
                              ondelete='cascade',
                              required=True)

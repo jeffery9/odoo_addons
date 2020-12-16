@@ -11,4 +11,4 @@ from odoo.exceptions import UserError, ValidationError
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    wxwork_userid = fields.Char(string=u'wxWork User ID', )
+    wxwork_userid = fields.Char(string=u'wxwork User ID', )

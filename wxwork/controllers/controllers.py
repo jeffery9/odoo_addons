@@ -6,7 +6,7 @@ from odoo.http import request
 from .WXBizJsonMsgCrypt import WXBizJsonMsgCrypt
 
 
-class WxWork(http.Controller):
+class wxwork(http.Controller):
     @http.route('/wxwork/push', auth='public')
     def index(self, **kw):
         # validate url for wxwork callback services
@@ -20,7 +20,8 @@ class WxWork(http.Controller):
                     token = company_id.wxwork_token
                     encoding_aes_key = company_id.wxwork_aes_key
 
-                    wxwork_crypt = WXBizJsonMsgCrypt(token, encoding_aes_key,corpid)
+                    wxwork_crypt = WXBizJsonMsgCrypt(token, encoding_aes_key,
+                                                     corpid)
                     result, reply_echostr = wxwork_crypt.VerifyURL(
                         kw['msg_signature'], kw['timestamp'], kw['nonce'],
                         kw['echostr'])
