@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wxwork_checkin,access_wxwork_checkin,model_wxwork_checkin,base.group_user,1,0,0,0 
+access_wxwork_checkin_group,access_wxwork_checkin_group,model_wxwork_checkin_group,base.group_user,1,0,0,0 
+access_wxwork_checkin_date,access_wxwork_checkin_date,model_wxwork_checkin_date,base.group_user,1,0,0,0 
+access_wxwork_checkin_time,access_wxwork_checkin_time,model_wxwork_checkin_time,base.group_user,1,0,0,0 
+access_wxwork_checkin_spe_day,access_wxwork_checkin_spe_day,model_wxwork_checkin_spe_day,base.group_user,1,0,0,0 
+access_wxwork_checkin_loc_info,access_wxwork_checkin_loc_info,model_wxwork_checkin_loc_info,base.group_user,1,0,0,0 
+access_wxwork_checkin_schedule,access_wxwork_checkin_schedule,model_wxwork_checkin_schedule,base.group_user,1,0,0,0 
+access_wxwork_checkin_schedule_time_section,access_wxwork_checkin_schedule_time_section,model_wxwork_checkin_schedule_time_section,base.group_user,1,0,0,0 
+access_wxwork_checkin_schedule_late_rule,access_wxwork_checkin_schedule_late_rule,model_wxwork_checkin_schedule_late_rule,base.group_user,1,0,0,0 
