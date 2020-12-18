@@ -5,9 +5,10 @@
 ###############################################################################
 
 import json
-import requests
 from datetime import timedelta
-from odoo import api, models, fields
+
+import requests
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -76,8 +77,8 @@ class wxworkCheckinGroup(models.Model):
     _name = 'wxwork.checkin.group'
     _description = 'wxwork Checkin Group'
 
-    _rec_name = 'group_name'
-    _order = 'group_name ASC'
+    _rec_name = 'groupname'
+    _order = 'groupname ASC'
 
     employee_ids = fields.Many2many(
         string=u'Employee',
@@ -87,15 +88,15 @@ class wxworkCheckinGroup(models.Model):
         column2='group_id',
     )
 
-    checkin_type = fields.Selection(string=u'Checkin Type',
-                                    selection=[('fixed', 'Fixed'),
-                                               ('shift', 'Shifted'),
-                                               ('flexible', 'Flexible')],
-                                    default='fixed')
+    grouptype = fields.Selection(string=u'Group Type',
+                                 selection=[('fixed', 'Fixed'),
+                                            ('shift', 'Shifted'),
+                                            ('flexible', 'Flexible')],
+                                 default='fixed')
 
     groupid = fields.Char(string=u'Group id', )
 
-    group_name = fields.Char(string=u'Group Name', )
+    groupname = fields.Char(string=u'Group Name', )
 
     checkin_date_ids = fields.One2many(
         string=u'Checkin Date',
@@ -126,7 +127,6 @@ class wxworkCheckinGroup(models.Model):
     )
 
     json_data = fields.Text(string='Json Data', readonly=True)
-    
 
 
 class wxworkCheckinDate(models.Model):
@@ -313,3 +313,20 @@ class wxworkCheckinScheduleLaterule(models.Model):
 
     allow_offwork_after_time = fields.Boolean(
         string=u'Allow Offwork After Time', )
+
+    timerule_ids = fields.One2many(
+        comodel_name='wxwork.checkin.schedule.late_rule.timerule',
+        inverse_name='late_rule_id',
+        string='late time rule')
+
+
+class wxworkCheckinScheduleLateruleTimerule(models.Model):
+    _name = 'wxwork.checkin.schedule.late_rule.timerule'
+    _description = 'New Description'
+
+    offwork_after_time = fields.Integer()
+
+    onwork_flex_time = fields.Integer()
+
+    late_rule_id = fields.Many2one(
+        comodel_name='wxwork.checkin.schedule.late_rule')

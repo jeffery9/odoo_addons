@@ -16,7 +16,7 @@
                         <group>
                             <group>
                                 <field name="wxwork_userid" />
-                                <field name="wxwork_checkin_group_ids" widget="many2many_tags" />
+                                <!-- <field name="wxwork_checkin_group_ids" widget="many2many_tags" /> -->
                             </group>
                         </group>
                         <!-- <group string="Checkin Data"> -->
