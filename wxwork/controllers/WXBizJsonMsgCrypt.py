@@ -51,7 +51,7 @@ class SHA1:
             sortlist = [token, timestamp, nonce, encrypt]
             sortlist.sort()
             sha = hashlib.sha1()
-            sha.update("".join(sortlist))
+            sha.update("".join(sortlist).encode())
             return  ierror.WXBizMsgCrypt_OK, sha.hexdigest()
         except Exception as e:
             print(e)
@@ -171,7 +171,7 @@ class Prpcrypt(object):
             print(e) 
             return  ierror.WXBizMsgCrypt_DecryptAES_Error,None
         try:
-            pad = ord(plain_text[-1]) 
+            pad = plain_text[-1]
             # 去掉补位字符串 
             #pkcs7 = PKCS7Encoder()
             #plain_text = pkcs7.encode(plain_text)   
@@ -183,11 +183,11 @@ class Prpcrypt(object):
         except Exception as e:
             print(e)
             return  ierror.WXBizMsgCrypt_IllegalBuffer,None
-        if  from_receiveid != receiveid:
+        if  from_receiveid.decode() != receiveid:
             print("receiveid not match")
             print(from_receiveid) 
             return ierror.WXBizMsgCrypt_ValidateCorpid_Error,None
-        return 0,json_content
+        return 0,json_content.decode()
     
     def get_random_str(self):
         """ 随机生成16位字符串

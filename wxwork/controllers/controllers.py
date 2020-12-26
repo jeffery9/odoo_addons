@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-import base64
 
 from odoo import http
 from odoo.http import request
+
 from .WXBizJsonMsgCrypt import WXBizJsonMsgCrypt
 
 
 class wxwork(http.Controller):
     @http.route('/wxwork/push', auth='public')
-    def index(self, **kw):
+    def push_event(self, **kw):
         # validate url for wxwork callback services
         if 'msg_signature' in kw and 'timestamp' in kw and 'nonce' in kw and 'echostr' in kw:
 
-            company_ids = request.env.companies
+            company_ids = request.env['res.company'].sudo().search([])
             reply_echostr = None
             for company_id in company_ids:
                 if company_id.wxwork_token and company_id.wxwork_aes_key:
@@ -29,8 +29,7 @@ class wxwork(http.Controller):
                     if result == 0:
                         break
 
-            if reply_echostr:
-                return reply_echostr
+            return reply_echostr or ''
 
         else:
             return request.env['wxwork.app'].call_back(kw)
