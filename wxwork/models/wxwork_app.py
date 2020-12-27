@@ -5,12 +5,14 @@
 ###############################################################################
 
 import json
+import logging
 from datetime import timedelta
 
 import requests
-
 from odoo import api, models, fields
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class wxworkApp(models.Model):
@@ -82,7 +84,9 @@ class wxworkApp(models.Model):
                     % (str(data.get('errcode')), data.get('errmsg')))
 
     @api.model
-    def call_back(self, data):
+    def call_back(self, data, company_id):
+        _logger.info(data)
+
         return True
 
 
