@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <!-- Form view for "model" -->
+        <record id="view_stock_quantity_history" model="ir.ui.view">
+            <field name="name">Inventory Report at Date</field>
+            <field name="model">stock.quantity.history</field>
+            <field name="inherit_id" ref="stock.view_stock_quantity_history" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='inventory_datetime']" position="before">
+                    <field name="location_id" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
