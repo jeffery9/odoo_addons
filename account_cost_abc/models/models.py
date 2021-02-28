@@ -17,10 +17,12 @@ class CostActivity(models.Model):
     measure = fields.Char(string=u'Measure Unit', required=True)
     value = fields.Boolean(string=u'Measure this?', default=True)
 
-    driver_id = fields.Many2one(string=u'Driver',
-                                comodel_name='account.cost.driver',
-                                ondelete='restrict',
-                                deprecated=True)
+    driver_id = fields.Many2one(
+        string=u'Driver',
+        comodel_name='account.cost.driver',
+        ondelete='restrict',
+        deprecated=True
+    )
 
 
 class CostDriver(models.Model):
@@ -28,16 +30,20 @@ class CostDriver(models.Model):
     _description = 'Cost Driver'
 
     name = fields.Char(string='Name')
-    driver_type = fields.Selection(string='Driver Type',
-                                   selection=[
-                                       ('activity', 'Activity Driver'),
-                                       ('resource', 'Resource Driver'),
-                                   ],
-                                   default='activity')
+    driver_type = fields.Selection(
+        string='Driver Type',
+        selection=[
+            ('activity', 'Activity Driver'),
+            ('resource', 'Resource Driver'),
+        ],
+        default='activity'
+    )
 
-    activity_id = fields.One2many(comodel_name='account.cost.activity',
-                                  inverse_name='driver_id',
-                                  string='Cost Activity')
+    activity_id = fields.One2many(
+        comodel_name='account.cost.activity',
+        inverse_name='driver_id',
+        string='Cost Activity'
+    )
 
 
 class ProductTemplate(models.Model):
@@ -61,54 +67,67 @@ class CostingPlan(models.Model):
     _rec_name = 'name'
     _order = 'name ASC'
 
-    object_type = fields.Selection(string=u'Object Type',
-                                   selection=[('product', 'Product'),
-                                              ('partner', 'Partner')],
-                                   default='product',
-                                   readonly=True,
-                                   states={'draft': [('readonly', False)]})
+    object_type = fields.Selection(
+        string=u'Object Type',
+        selection=[('product', 'Product'), ('partner', 'Partner')],
+        default='product',
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
-    name = fields.Char(string=u'Name',
-                       required=True,
-                       default=lambda self: _('New'),
-                       copy=False)
+    name = fields.Char(
+        string=u'Name',
+        required=True,
+        default=lambda self: _('New'),
+        copy=False
+    )
 
-    date_begin = fields.Date(string=u'Date Begin',
-                             default=fields.Date.context_today,
-                             readonly=True,
-                             states={'draft': [('readonly', False)]})
+    date_begin = fields.Date(
+        string=u'Date Begin',
+        default=fields.Date.context_today,
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
-    date_end = fields.Date(string=u'Date End',
-                           default=fields.Date.context_today,
-                           readonly=True,
-                           states={'draft': [('readonly', False)]})
+    date_end = fields.Date(
+        string=u'Date End',
+        default=fields.Date.context_today,
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
-    product_ids = fields.Many2many(string=u'Product',
-                                   comodel_name='product.product',
-                                   relation='product_product_costing_plan_rel',
-                                   column1='product_product_id',
-                                   column2='costing_plan_id',
-                                   required=True,
-                                   readonly=True,
-                                   states={'draft': [('readonly', False)]})
+    product_ids = fields.Many2many(
+        string=u'Product',
+        comodel_name='product.product',
+        relation='product_product_costing_plan_rel',
+        column1='product_product_id',
+        column2='costing_plan_id',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
-    partner_ids = fields.Many2many(string=u'Partner',
-                                   comodel_name='res.partner',
-                                   relation='res_partner_costing_plan_rel',
-                                   column1='res_partner_id',
-                                   column2='costing_plan_id',
-                                   readonly=True,
-                                   states={'draft': [('readonly', False)]})
+    partner_ids = fields.Many2many(
+        string=u'Partner',
+        comodel_name='res.partner',
+        relation='res_partner_costing_plan_rel',
+        column1='res_partner_id',
+        column2='costing_plan_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
-    account_ids = fields.Many2many(string=u'Account',
-                                   comodel_name='account.account',
-                                   relation='account_account_costing_plan_rel',
-                                   column1='account_account_id',
-                                   column2='costing_plan_id',
-                                   required=True,
-                                   domain=[('internal_group', '=', 'expense')],
-                                   readonly=True,
-                                   states={'draft': [('readonly', False)]})
+    account_ids = fields.Many2many(
+        string=u'Account',
+        comodel_name='account.account',
+        relation='account_account_costing_plan_rel',
+        column1='account_account_id',
+        column2='costing_plan_id',
+        required=True,
+        domain=[('internal_group', '=', 'expense')],
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
 
     account_move_ids = fields.Many2many(
         string=u'Account Move',
@@ -137,7 +156,8 @@ class CostingPlan(models.Model):
         comodel_name='account.costing.abc.plan.activity.distribution',
         inverse_name='plan_id',
         readonly=True,
-        states={'draft': [('readonly', False)]})
+        states={'draft': [('readonly', False)]}
+    )
 
     result_ids = fields.One2many(
         string=u'Result',
@@ -145,27 +165,31 @@ class CostingPlan(models.Model):
         inverse_name='plan_id',
     )
 
-    state = fields.Selection(string=u'State',
-                             selection=[('draft', 'Draft'),
-                                        ('confirmed', 'Confirmed'),
-                                        ('closed', 'Closed'),
-                                        ('cancelled', 'Cancelled')],
-                             default='draft',
-                             readonly=True,
-                             tracking=99)
+    state = fields.Selection(
+        string=u'State',
+        selection=[('draft', 'Draft'), ('confirmed', 'Confirmed'),
+                   ('closed', 'Closed'), ('cancelled', 'Cancelled')],
+        default='draft',
+        readonly=True,
+        tracking=99
+    )
 
     def action_confirm(self):
         self.write({'state': 'confirmed'})
         for record in self:
             cost_pool_ids = record.product_ids.cost_activity_ids
             exists_cost_pool_ids = record.activity_distribution_ids.mapped(
-                'activity_id')
+                'activity_id'
+            )
             need_update = cost_pool_ids - exists_cost_pool_ids
 
             record.cost_activity_ids = cost_pool_ids
             values = []
             for item in need_update:
-                values.append((0, 0, {'activity_id': item.id, 'percent': 0}))
+                values.append((0, 0, {
+                    'activity_id': item.id,
+                    'percent': 0
+                }))
 
             if values:
                 record.write({'activity_distribution_ids': values})
@@ -173,7 +197,9 @@ class CostingPlan(models.Model):
             exists_result_product_ids = record.result_ids.mapped('product_id')
             cost_results = []
             for product_id in (record.product_ids - exists_result_product_ids):
-                cost_results.append((0, 0, {'product_id': product_id.id}))
+                cost_results.append((0, 0, {
+                    'product_id': product_id.id
+                }))
             if cost_results:
                 record.write({"result_ids": cost_results})
 
@@ -190,8 +216,10 @@ class CostingPlan(models.Model):
         for record in self:
             if record.state not in ('draft'):
                 raise UserError(
-                    _(u'You cannot delete a document which is not draft or cancelled!'
-                      ))
+                    _(
+                        u'You cannot delete a document which is not draft or cancelled!'
+                    )
+                )
         return super(CostingPlan, self).unlink()
 
 
@@ -202,10 +230,12 @@ class CostingPlanActivityDistribution(models.Model):
     _rec_name = 'name'
     _order = 'name ASC'
 
-    name = fields.Char(string=u'Name',
-                       required=True,
-                       default=lambda self: _('New'),
-                       copy=False)
+    name = fields.Char(
+        string=u'Name',
+        required=True,
+        default=lambda self: _('New'),
+        copy=False
+    )
 
     plan_id = fields.Many2one(
         string=u'Plan',
@@ -219,7 +249,8 @@ class CostingPlanActivityDistribution(models.Model):
         relation='product_product_activity_dist_rel',
         column1='product_product_id',
         column2='activity_dist_id',
-        compute='_compute_product_ids')
+        compute='_compute_product_ids'
+    )
 
     @api.depends('plan_id')
     def _compute_product_ids(self):
@@ -254,12 +285,14 @@ class CostingPlanActivityDistribution(models.Model):
     @api.constrains('object_distribution_ids')
     def _check_field(self):
         for record in self:
-            if sum(record.object_distribution_ids.mapped(
-                    'activity')) != record.activity:
+            if sum(record.object_distribution_ids.mapped('activity')
+                   ) != record.activity:
 
                 raise UserError(
-                    _(u'Total activity of distribution must equals to the activity.'
-                      ))
+                    _(
+                        u'Total activity of distribution must equals to the activity.'
+                    )
+                )
 
     @api.depends('percent', 'activity')
     def _compute_rate(self):
@@ -276,7 +309,8 @@ class CostingPlanActivityDistribution(models.Model):
         self.ensure_one()
 
         view = self.env.ref(
-            'account_cost_abc.view_form_abc_plan_activity_distribution')
+            'account_cost_abc.view_form_abc_plan_activity_distribution'
+        )
 
         return {
             'name': _('Detailed Distribution'),
@@ -298,10 +332,12 @@ class CostingPlanObjectDistribution(models.Model):
     _rec_name = 'name'
     _order = 'name ASC'
 
-    name = fields.Char(string=u'Name',
-                       required=True,
-                       default=lambda self: _('New'),
-                       copy=False)
+    name = fields.Char(
+        string=u'Name',
+        required=True,
+        default=lambda self: _('New'),
+        copy=False
+    )
 
     distribution_id = fields.Many2one(
         string=u'Plan',
@@ -309,9 +345,9 @@ class CostingPlanObjectDistribution(models.Model):
         ondelete='restrict',
     )
 
-    product_id = fields.Many2one(string=u'Product',
-                                 comodel_name='product.product',
-                                 required=True)
+    product_id = fields.Many2one(
+        string=u'Product', comodel_name='product.product', required=True
+    )
 
     partner_id = fields.Many2one(
         string=u'Partner',
@@ -341,10 +377,12 @@ class AccountCostResult(models.Model):
     _rec_name = 'name'
     _order = 'name ASC'
 
-    name = fields.Char(string=u'Name',
-                       required=True,
-                       default=lambda self: _('New'),
-                       copy=False)
+    name = fields.Char(
+        string=u'Name',
+        required=True,
+        default=lambda self: _('New'),
+        copy=False
+    )
 
     plan_id = fields.Many2one(
         string=u'Plan',
@@ -365,7 +403,8 @@ class AccountCostResult(models.Model):
     distribution_ids = fields.One2many(
         string=u'Distribution',
         comodel_name='account.costing.abc.plan.object.distribution',
-        compute='_compute_distribution_ids')
+        compute='_compute_distribution_ids'
+    )
 
     @api.depends('partner_id', 'partner_id')
     def _compute_distribution_ids(self):

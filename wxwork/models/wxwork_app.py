@@ -28,10 +28,12 @@ class wxworkApp(models.Model):
 
     wxwork_secret = fields.Char(string=u'Secret', required=True, copy=False)
 
-    company_id = fields.Many2one(string=u'Company',
-                                 comodel_name='res.company',
-                                 ondelete='restrict',
-                                 default=False)
+    company_id = fields.Many2one(
+        string=u'Company',
+        comodel_name='res.company',
+        ondelete='restrict',
+        default=False
+    )
 
     access_token_ids = fields.One2many(
         string=u'Access Token',
@@ -45,7 +47,8 @@ class wxworkApp(models.Model):
                 [('app_id', '=', app.id),
                  ('company_id', '=', app.company_id.id),
                  ('expire', '>', fields.Datetime.now())],
-                limit=1)
+                limit=1
+            )
 
             if access_token:
                 return access_token.token
@@ -81,7 +84,8 @@ class wxworkApp(models.Model):
             else:
                 raise UserError(
                     'some error occured \n \nerror code:  %s\nerror message:  \n  %s'
-                    % (str(data.get('errcode')), data.get('errmsg')))
+                    % (str(data.get('errcode')), data.get('errmsg'))
+                )
 
     @api.model
     def call_back(self, data, company_id):
@@ -101,17 +105,23 @@ class wwxworkAccessToken(models.Model):
 
     expire = fields.Datetime(string=u'Expire', required=True)
 
-    app_id = fields.Many2one(string=u'wxwork App',
-                             comodel_name='wxwork.app',
-                             ondelete='cascade',
-                             required=True)
+    app_id = fields.Many2one(
+        string=u'wxwork App',
+        comodel_name='wxwork.app',
+        ondelete='cascade',
+        required=True
+    )
 
-    company_id = fields.Many2one(string=u'Company ID',
-                                 comodel_name='res.company',
-                                 ondelete='cascade',
-                                 required=True)
+    company_id = fields.Many2one(
+        string=u'Company ID',
+        comodel_name='res.company',
+        ondelete='cascade',
+        required=True
+    )
 
-    corpid = fields.Char(string=u'Corp Id',
-                         related='company_id.wxwork_corpid',
-                         readonly=True,
-                         store=True)
+    corpid = fields.Char(
+        string=u'Corp Id',
+        related='company_id.wxwork_corpid',
+        readonly=True,
+        store=True
+    )

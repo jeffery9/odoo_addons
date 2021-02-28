@@ -5,14 +5,20 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     restrict_lot_id = fields.Many2one(
-        'stock.production.lot', string='Restricted Lot Numbers', related="order_line.restrict_lot_id")
+        'stock.production.lot',
+        string='Restricted Lot Numbers',
+        related="order_line.restrict_lot_id"
+    )
 
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     restrict_lot_id = fields.Many2one(
-        'stock.production.lot', string='Restricted Lot Numbers', readonly=False)
+        'stock.production.lot',
+        string='Restricted Lot Numbers',
+        readonly=False
+    )
 
 
 class StockRule(models.Model):

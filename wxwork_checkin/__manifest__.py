@@ -15,7 +15,7 @@
     'website': "http://www.geninit.cn",
     'category': 'Utility',
     'version': '0.1',
-    'depends': ['wxwork','hr', 'hr_attendance'],
+    'depends': ['wxwork', 'hr', 'hr_attendance'],
     "external_dependencies": {
         "python": ["Crypto"],
     },

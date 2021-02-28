@@ -23,11 +23,13 @@ class wxwork(http.Controller):
                     token = company_id.wxwork_token
                     encoding_aes_key = company_id.wxwork_aes_key
 
-                    wxwork_crypt = WXBizJsonMsgCrypt(token, encoding_aes_key,
-                                                     corpid)
+                    wxwork_crypt = WXBizJsonMsgCrypt(
+                        token, encoding_aes_key, corpid
+                    )
                     result, reply_echostr = wxwork_crypt.VerifyURL(
                         kw['msg_signature'], kw['timestamp'], kw['nonce'],
-                        kw['echostr'])
+                        kw['echostr']
+                    )
 
                     if result == 0:
                         break
@@ -43,18 +45,19 @@ class wxwork(http.Controller):
                     token = company_id.wxwork_token
                     encoding_aes_key = company_id.wxwork_aes_key
 
-                    wxwork_crypt = WXBizJsonMsgCrypt(token, encoding_aes_key,
-                                                     corpid)
-                    result, plain_data = wxwork_crypt.DecryptMsg(data,
-                                                                 kw['msg_signature'], kw['timestamp'], kw['nonce'])
+                    wxwork_crypt = WXBizJsonMsgCrypt(
+                        token, encoding_aes_key, corpid
+                    )
+                    result, plain_data = wxwork_crypt.DecryptMsg(
+                        data, kw['msg_signature'], kw['timestamp'], kw['nonce']
+                    )
 
                     if result == 0:
-                        return request.env['wxwork.app'].call_back(plain_data, company_id)
-
-                        break
+                        return request.env['wxwork.app'].call_back(
+                            plain_data, company_id
+                        )
 
             return ''
-
 
         else:
             return "Hello, world! :)"

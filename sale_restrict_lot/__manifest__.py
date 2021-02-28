@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Sale Restrict Lot",
-
     'summary': """
         """,
     'description': """
@@ -19,10 +18,7 @@
     'depends': ['sale_stock'],
 
     # always loaded
-    'data': [
-        'views/views.xml',
-    ],
-
+    'data': ['views/views.xml', ],
     'installable': True,
     'auto_install': True,
 }

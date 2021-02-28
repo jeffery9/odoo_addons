@@ -47,23 +47,28 @@ class wxworkCheckin(models.Model):
 
     timeline_id = fields.Char(string=u'Timeline Id', )
 
-    employee_id = fields.Many2one(string=u'Employee',
-                                  comodel_name='hr.employee',
-                                  ondelete='restrict',
-                                  compute='_compute_employee_id',
-                                  store=True)
+    employee_id = fields.Many2one(
+        string=u'Employee',
+        comodel_name='hr.employee',
+        ondelete='restrict',
+        compute='_compute_employee_id',
+        store=True
+    )
 
-    group_id = fields.Many2one(string=u'Checkin Group',
-                               comodel_name='wxwork.checkin.group',
-                               ondelete='restrict',
-                               compute='_compute_group_id',
-                               store=True)
+    group_id = fields.Many2one(
+        string=u'Checkin Group',
+        comodel_name='wxwork.checkin.group',
+        ondelete='restrict',
+        compute='_compute_group_id',
+        store=True
+    )
 
     @api.depends('groupid')
     def _compute_group_id(self):
         for record in self:
             record.group_id = self.env['wxwork.checkin.group'].search(
-                [('groupid', '=', record.group)], limit=1).id
+                [('groupid', '=', record.group)], limit=1
+            ).id
 
     @api.depends('userid')
     def _compute_employee_id(self):
@@ -88,11 +93,12 @@ class wxworkCheckinGroup(models.Model):
         column2='group_id',
     )
 
-    grouptype = fields.Selection(string=u'Group Type',
-                                 selection=[('fixed', 'Fixed'),
-                                            ('shift', 'Shifted'),
-                                            ('flexible', 'Flexible')],
-                                 default='fixed')
+    grouptype = fields.Selection(
+        string=u'Group Type',
+        selection=[('fixed', 'Fixed'), ('shift', 'Shifted'),
+                   ('flexible', 'Flexible')],
+        default='fixed'
+    )
 
     groupid = fields.Char(string=u'Group id', )
 
@@ -104,15 +110,19 @@ class wxworkCheckinGroup(models.Model):
         inverse_name='checkin_group_id',
     )
 
-    spe_workday_ids = fields.One2many(string=u'spe_workday',
-                                      comodel_name='wxwork.checkin.spe_day',
-                                      inverse_name='checkin_group_id',
-                                      domain=[('spe_type', '=', 'workday')])
+    spe_workday_ids = fields.One2many(
+        string=u'spe_workday',
+        comodel_name='wxwork.checkin.spe_day',
+        inverse_name='checkin_group_id',
+        domain=[('spe_type', '=', 'workday')]
+    )
 
-    spe_offday_ids = fields.One2many(string=u'spe_offday',
-                                     comodel_name='wxwork.checkin.spe_day',
-                                     inverse_name='checkin_group_id',
-                                     domain=[('spe_type', '=', 'offday')])
+    spe_offday_ids = fields.One2many(
+        string=u'spe_offday',
+        comodel_name='wxwork.checkin.spe_day',
+        inverse_name='checkin_group_id',
+        domain=[('spe_type', '=', 'offday')]
+    )
 
     loc_info_ids = fields.One2many(
         string=u'loc_info',
@@ -187,8 +197,9 @@ class wxworkCheckinTime(models.Model):
 
     remind_off_work_sec = fields.Integer(string=u'Remind Off Work Sec', )
 
-    _sql_constraints = [('unique_name', 'unique(name)',
-                         'the name muse be unique!')]
+    _sql_constraints = [
+        ('unique_name', 'unique(name)', 'the name muse be unique!')
+    ]
 
 
 class wxworkCheckinSpeday(models.Model):
@@ -204,10 +215,11 @@ class wxworkCheckinSpeday(models.Model):
 
     timestamp = fields.Integer(string=u'Timestamp', )
 
-    spe_type = fields.Selection(string=u'Spe Type',
-                                selection=[('workday', 'Workday'),
-                                           ('offday', 'Offday')],
-                                required=True)
+    spe_type = fields.Selection(
+        string=u'Spe Type',
+        selection=[('workday', 'Workday'), ('offday', 'Offday')],
+        required=True
+    )
 
     notes = fields.Char(string=u'Notes', )
 
@@ -312,12 +324,14 @@ class wxworkCheckinScheduleLaterule(models.Model):
     _description = 'wxwork Checkin Schedule late_rule'
 
     allow_offwork_after_time = fields.Boolean(
-        string=u'Allow Offwork After Time', )
+        string=u'Allow Offwork After Time',
+    )
 
     timerule_ids = fields.One2many(
         comodel_name='wxwork.checkin.schedule.late_rule.timerule',
         inverse_name='late_rule_id',
-        string='late time rule')
+        string='late time rule'
+    )
 
 
 class wxworkCheckinScheduleLateruleTimerule(models.Model):
@@ -329,4 +343,5 @@ class wxworkCheckinScheduleLateruleTimerule(models.Model):
     onwork_flex_time = fields.Integer()
 
     late_rule_id = fields.Many2one(
-        comodel_name='wxwork.checkin.schedule.late_rule')
+        comodel_name='wxwork.checkin.schedule.late_rule'
+    )
